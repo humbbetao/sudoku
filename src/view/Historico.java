@@ -3,18 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package model;
+package view;
 
-import javax.persistence.EntityManager;
+import javax.swing.JFrame;
 
 /**
  *
  * @author hgoncalves
  */
-public class DAODificuldade extends DAOGeneric<Dificuldade> {
-
-    public DAODificuldade(EntityManager entityM) {
-        super(entityM);
-    }   
-
+public class Historico extends JFrame {
+    
 }

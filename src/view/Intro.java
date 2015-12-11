@@ -6,6 +6,7 @@
 package view;
 
 import controller.ControllerInterface;
+import controller.ControllerSudoku;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -31,23 +32,24 @@ import model.Dificuldade;
  *
  * @author hgoncalves
  */
-public class Intro  extends JFrame implements ActionListener  {
-    private ActionListener controller;
+public class Intro extends JFrame implements ActionListener {
+
+//    private ActionListener controller;
     private JDialog primeiraTela;
     private JPanel panel1;
     private JButton btnHistorico;
     private JButton btnFacil;
     private JButton btnMedio;
     private JButton btnDificil;
+    private ControllerInterface controller;
 
     private JTextField jtext;
     private Label lblNomeJogador;
     private Dificuldade dificuldade;
 
+    public void criarInterface() {
 
-    public void criarInterface(){
-         
-        setSize(600,700);
+        setSize(600, 700);
         JSeparator separador = new JSeparator();
         JPanel panel1 = new JPanel() {
             @Override
@@ -57,7 +59,7 @@ public class Intro  extends JFrame implements ActionListener  {
                 g.drawImage(imagem, 0, 0, this);
             }
         };
-        
+
         add(panel1);
 
         jtext = new JTextField();
@@ -83,7 +85,7 @@ public class Intro  extends JFrame implements ActionListener  {
         btnDificil = new JButton("Difícil (15 números abertos)", angry);
         btnDificil.setBorder(BorderFactory.createLineBorder(Color.WHITE));
 
-        panel1.setSize(800,600);
+        panel1.setSize(800, 600);
         panel1.setVisible(true);
 
         btnHistorico.setSize(35, 35);
@@ -131,28 +133,39 @@ public class Intro  extends JFrame implements ActionListener  {
         criarInterface();
     }
 
-    
-
-    
-    public void addController(ControllerInterface controller){
+    public void addController(ControllerInterface controller) {
         btnFacil.addActionListener(controller);
-//		System.out.println("View      : adding controller");
-//		btnFacil.addActionListener(controller);	//need controller before adding it as a listener 
-	} //addController()
-    
+        btnMedio.addActionListener(controller);
+        btnDificil.addActionListener(controller);
+        btnHistorico.addActionListener(controller);
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         if (jtext.getText().equals("")) {
             JOptionPane.showMessageDialog(panel1, "Por favor, insira o seu nome");
         } else {
             if (e.getSource() == btnFacil) {
-                
+                this.controller.setSudokuGame(new ControllerSudoku(Dificuldade.FACIL, jtext.getText().toString()));
+//                addController();
 //                    game = new Game(jtext.getText(), dificuldade.FACIL);
             }
             if (e.getSource() == btnMedio) {
+                 this.controller.setSudokuGame(new ControllerSudoku(Dificuldade.FACIL, jtext.getText().toString()));
+//              
+//                addController();
 //                    game = new Game(jtext.getText(), dificuldade.MEDIO);
             }
             if (e.getSource() == btnDificil) {
+                 this.controller.setSudokuGame(new ControllerSudoku(Dificuldade.FACIL, jtext.getText().toString()));
+//              
+//                addController();
+//                    game = new Game(jtext.getText(), dificuldade.DIFICIL);
+            }
+            if (e.getSource() == btnHistorico) {
+                 this.controller.setSudokuGame(new ControllerSudoku(Dificuldade.FACIL, jtext.getText().toString()));
+//              
+//                addController();
 //                    game = new Game(jtext.getText(), dificuldade.DIFICIL);
             }
             dispose();
@@ -163,9 +176,9 @@ public class Intro  extends JFrame implements ActionListener  {
         return controller;
     }
 
-    public void setController(ActionListener controller) {
-        this.controller = controller;
-    }
+//    public void setController(ActionListener controller) {
+//        this.controller = controller;
+//    }
 
     public JDialog getPrimeiraTela() {
         return primeiraTela;
@@ -238,6 +251,14 @@ public class Intro  extends JFrame implements ActionListener  {
     public void setDificuldade(Dificuldade dificuldade) {
         this.dificuldade = dificuldade;
     }
+
+//    public ControllerInterface getController() {
+//        return controller;
+//    }
+//
+//    public void setController(ControllerInterface controller) {
+//        this.controller = controller;
+//    }
     
 
 }
