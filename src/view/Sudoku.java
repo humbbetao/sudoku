@@ -17,8 +17,10 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import model.Dificuldade;
+import static model.Dificuldade.*;
 import model.Jogador;
 import model.Jogo9X9;
+import static model.Jogo9X9.tamanho;
 
 /**
  *
@@ -42,6 +44,7 @@ public class Sudoku extends JFrame {
     private JButton btnDicas;
     private JButton btnDesistir;
     private JButton btnTimer;
+    private Campo9X9 campos;
 
     int matriz[][];
 
@@ -278,77 +281,75 @@ public class Sudoku extends JFrame {
     }
 
     private void criarInterface(Dificuldade dificuldade, String jogador, int[][] matriz) {
+        this.campos = new Campo9X9();
         setSize(600, 600);
         setVisible(true);
         panel1 = new Panel();
         panel2 = new Panel();
-
         Icon icone = new ImageIcon("mouse_cursor-512.png");
         Icon icone2 = new ImageIcon("clock.png");
         btnNovoJogo = new JButton("Novo Jogo", icone);
         btnDicas = new JButton("Dicas", icone);
         btnDesistir = new JButton("Desistir", icone);
-
         btnTimer = new JButton("Tempo", icone2);
         btnTimer.setBorder(BorderFactory.createLineBorder(Color.WHITE));
         btnTimer.setSize(40, 40);
         btnTimer.setVisible(true);
         Label lblNomeJogador = new Label("Nome do Jogador: " + jogador);
-
         panel1.setSize(800, 70);
         panel1.setVisible(true);
-
         panel1.add(btnNovoJogo);
         panel1.add(btnDicas);
         panel1.add(btnDesistir);
         panel1.add(btnTimer);
-
         panel1.add(lblNomeJogador);
-
         add(panel1);
-
         panel2.setVisible(true);
         panel2.setSize(770, 470);
-
         add(panel2);
-
-//        int level = getDificuldade() * ROW;
-        /**
-         * Configurações dos botões do jogo Botão DESISTIR:
-         *
-         */
-//        btnDesistir.addActionListener(this);
-
-//        panel2.setLayout(new GridLayout(level, level));
-//        campos = new Campos(level);
-//        int n = 3;
-//        int aux = 0;
-//        int numero = 0;
-//        int numeroAbertos;
-//        int numeroAleatorio;
-//        matriz = new int[level][level];
-//        gerador = new Random();
-//
-//        for (int i = 0; i < level; i++) {
-//            for (int j = 0; j < level; j++) {
-//                aux = (i * level + i / level + j) % (N) + 1;
-//                numeroAbertos = gerador.nextInt(2);
-//                numeroAleatorio = definirPeloLevel(nivel.getDificuldade());
-//                matriz[i][j] = aux;
-//                if (numeroAbertos == 1 && numero < numeroAleatorio) {
-//                    campos.campos[i][j].setText(String.valueOf(aux));
-//                    numero++;
-//                    campos.campos[i][j].setEditable(false);
-//                    campos.campos[i][j].setEnabled(false);
-//                }
-//                if ((i + j) % 2 == 0) {
-//                    campos.campos[i][j].setText(String.valueOf(aux));
-//                }
-//                panel2.add(add(campos.campos[i][j]));
-//                panel2.setLocation(15, 75);
-//
-//            }
-//
-//        }
+        panel2.setLayout(new GridLayout(tamanho, tamanho));
+        int n = 3;
+        int aux = 0;
+        int numero = 0;
+        int numeroAbertos;
+        int numeroAleatorio;
+        for (int i = 0; i < tamanho; i++) {
+            for (int j = 0; j < tamanho; j++) {
+                aux = (i * tamanho + i / tamanho + j) % (tamanho) + 1;
+                numeroAbertos = gerador.nextInt(2);
+                matriz[i][j] = aux;
+                if (numeroAbertos == 1 && numero < definirPeloLevel(dificuldade)) {
+                    this.campos.getMatrizDeSolucao()[i][j].setText(String.valueOf(aux));
+                    this.campos.getMatrizDeSolucao()[i][j].setEditable(false);
+                    this.campos.getMatrizDeSolucao()[i][j].setEnabled(true);
+                    numero++;
+                }
+                panel2.add(add(this.campos.getMatrizDeSolucao()[i][j]));
+                panel2.setLocation(15, 75);
+            }
+        }
     }
+
+    private int definirPeloLevel(Dificuldade dificuldade) {
+        int numero = 0;
+        if (dificuldade == FACIL) {
+            numero = 70;
+        }
+        if (dificuldade == MEDIO) {
+            numero = 35;
+        }
+        if (dificuldade == DIFICIL) {
+            numero = 15;
+        }
+        return numero;
+    }
+
+    public Campo9X9 getCampos() {
+        return campos;
+    }
+
+    public void setCampos(Campo9X9 campos) {
+        this.campos = campos;
+    }
+
 }
