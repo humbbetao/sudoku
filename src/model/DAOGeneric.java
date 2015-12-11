@@ -5,7 +5,8 @@
  */
 package model;
 
-import java.awt.List;
+import java.util.List;
+import java.lang.reflect.ParameterizedType;
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
 
@@ -15,12 +16,10 @@ import javax.persistence.Persistence;
  */
 public class DAOGeneric<T> {
 
-    private final EntityManager em = Persistence.createEntityManagerFactory("UP").createEntityManager();
+    private static EntityManager em;
 
-    private final Class clazz;
-
-    public DAOGeneric(Class clazz) {
-        this.clazz = clazz;
+    public DAOGeneric(EntityManager entityM) {
+        em = entityM;
     }
 
     public void insert(T entity) {
@@ -35,30 +34,24 @@ public class DAOGeneric<T> {
         em.getTransaction().commit();
     }
 
-    public void remove(int id) {
-        T obj = this.get(id);
-        if (obj == null) {
-            return;
-        }
+    public void remove(T entity) {
+  
         em.getTransaction().begin();
-        em.remove(obj);
+        em.remove(entity);
         em.getTransaction().commit();
     }
 
-    public T get(int id) {
-        return (T) em.find(this.clazz, id);
+    private Class<?> getTypeClass() {
+        Class<?> clazz = (Class<?>) ((ParameterizedType) this.getClass().getGenericSuperclass())
+                .getActualTypeArguments()[1];
+        return clazz;
     }
-//
-//    public List<T> list() {
-//        return em.createQuery("SELECT c FROM " + clazz.getSimpleName() + " c").getResultList();
-//    }
-//
-//    public List<T> listByNome(String nome) {
-//        return em.createQuery("SELECT t FROM " + clazz.getSimpleName() + " t WHERE t.nome LIKE '%" + nome + "%' ").getResultList();
-//    }
 
-//    public List<T> listByNomeA(String nome, String cpf) {
-//        return em.createQuery("SELECT t FROM " + clazz.getSimpleName() + " t WHERE t.nome LIKE '%" + nome + "%' AND t.cpf LIKE '%"
-//                + cpf + "%'").getResultList();
-//    }
+    public List<T> list() {
+        return em.createQuery("SELECT c FROM " + getTypeClass().getSimpleName() + " c").getResultList();
+    }
+//    /* public List<T> listByTitulo(String titulo) {
+//     return em.createQuery("SELECT e FROM "+clazz.getSimpleName()+" e WHERE e.titulo LIKE '%"+titulo+"%'").getResultList();
+//     }*/
+
 }

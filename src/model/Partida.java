@@ -29,6 +29,10 @@ public class Partida implements Serializable {
     @OneToOne
     private Dificuldade dificuldade;
 
+    public Partida(Jogador jogador, Jogo9X9 jogo, Dificuldade dificuldade) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     public int getIdPartida() {
         return idPartida;
     }

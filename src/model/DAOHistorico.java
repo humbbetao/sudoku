@@ -5,10 +5,14 @@
  */
 package model;
 
+import javax.persistence.EntityManager;
+
 /**
  *
  * @author hgoncalves
  */
-public class DAOHistorico {
-    
+public class DAOHistorico extends DAOGeneric<Historico>{
+     public DAOHistorico(EntityManager entityM) {
+        super(entityM);
+    }
 }

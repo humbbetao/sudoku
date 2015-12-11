@@ -23,4 +23,8 @@ public class Jogador implements Serializable {
 //    @Column
 //    @OneToOne
 //    private Campo campo;
+
+    public Jogador(String jogador) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

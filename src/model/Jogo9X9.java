@@ -1,4 +1,3 @@
-
 package model;
 
 import javax.persistence.Column;
@@ -17,6 +16,8 @@ public class Jogo9X9 {
     @Column
     @OneToOne
     private Jogo3X3 matrizDeSolucao[][];
+    @Column
+    private int matriz[][];
 
     public int getId() {
         return id;
@@ -28,10 +29,19 @@ public class Jogo9X9 {
 
     public Jogo9X9() {
         this.matrizDeSolucao = new Jogo3X3[tamanho][tamanho];
+        this.matriz = new int[tamanho * tamanho][tamanho * tamanho];
         for (int i = 0; i < tamanho; i++) {
             for (int j = 0; j < tamanho; j++) {
                 this.matrizDeSolucao[i][j] = new Jogo3X3();
+
             }
+        }
+
+        for (int i = 0; i < tamanho * tamanho; i++) {
+            for (int j = 0; j < tamanho * tamanho; j++) {
+                matriz[i][j] = (i * (tamanho * tamanho) + i / (tamanho * tamanho) + j) % (tamanho * tamanho) + 1;
+            }
+
         }
     }
 
@@ -41,6 +51,14 @@ public class Jogo9X9 {
 
     public void setMatrizDeSolucao(Jogo3X3[][] matrizDeSolucao) {
         this.matrizDeSolucao = matrizDeSolucao;
+    }
+
+    public int[][] getMatriz() {
+        return matriz;
+    }
+
+    public void setMatriz(int[][] matriz) {
+        this.matriz = matriz;
     }
 
 }

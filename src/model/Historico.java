@@ -24,6 +24,10 @@ public class Historico implements Serializable {
     public Historico() {
     }
 
+    public Historico(Partida partida, String data) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     public Partida getPartida() {
         return partida;
     }

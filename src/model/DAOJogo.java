@@ -5,14 +5,16 @@
  */
 package model;
 
+import javax.persistence.EntityManager;
+
 /**
  *
  * @author hgoncalves
  */
 public class DAOJogo extends DAOGeneric<Jogo9X9>{
 
-    public DAOJogo(Class clazz) {
-        super(clazz);
+    public DAOJogo(EntityManager entityM) {
+        super(entityM);
     }
     
 }
